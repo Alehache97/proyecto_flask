@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Búsqueda de XXX{% endblock %}
+
+{% block content %}
+    <!-- Contenedor principal -->
+    <div class="main-content">
+        <!-- Contenido del formulario de búsqueda -->
+        <h2>Búsqueda de Articulos</h2>
+        <form action="/tabla" method="post">
+            <label for="busqueda">Inserte un valor</label>
+            <input type="text" id="busqueda" name="busqueda" placeholder="Nombre del XXX">
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+{% endblock %}
