@@ -13,6 +13,7 @@ def inicio():
 def formulario():
     return render_template("formulario.html")
 
+
 @app.route('/tabla',methods=["POST"])
 def tabla():
     buscador=request.form.get("busqueda")
@@ -21,46 +22,27 @@ def tabla():
     mujeres = []
     sumalista2 = []
 
-    for i in jsonok["tienda"]["categorias"]["zapatillas"]["hombres"]["productos"]:
-        zapatillas = {"id": i["id"],"nombre": i["nombre"], "marca": i["marca"], "precio": i["precio"]}
-        hombres.append(zapatillas)
+    categorias = ["zapatillas", "camisetas", "sudaderas", "pantalones"]
 
-    for i in jsonok["tienda"]["categorias"]["zapatillas"]["mujeres"]["productos"]:
-        zapatillas = {"id": i["id"],"nombre": i["nombre"], "marca": i["marca"], "precio": i["precio"]}
-        mujeres.append(zapatillas)
+    for categoria in categorias:
+        for genero in ["hombres", "mujeres"]:
+            for producto in jsonok["tienda"]["categorias"][categoria][genero]["productos"]:
+                zapatillas = {
+                    "id": producto["id"],
+                    "nombre": producto["nombre"],
+                    "marca": producto["marca"],
+                    "precio": producto["precio"]
+                }
+                if genero == "hombres":
+                    hombres.append(zapatillas)
+                else:
+                    mujeres.append(zapatillas)
 
-
-    for i in jsonok["tienda"]["categorias"]["camisetas"]["hombres"]["productos"]:
-        zapatillas = {"id": i["id"],"nombre": i["nombre"], "marca": i["marca"], "precio": i["precio"]}
-        hombres.append(zapatillas)
-
-    for i in jsonok["tienda"]["categorias"]["camisetas"]["mujeres"]["productos"]:
-        zapatillas = {"id": i["id"],"nombre": i["nombre"], "marca": i["marca"], "precio": i["precio"]}
-        mujeres.append(zapatillas)
-
-
-    for i in jsonok["tienda"]["categorias"]["sudaderas"]["hombres"]["productos"]:
-        zapatillas = {"id": i["id"],"nombre": i["nombre"], "marca": i["marca"], "precio": i["precio"]}
-        hombres.append(zapatillas)
-
-    for i in jsonok["tienda"]["categorias"]["sudaderas"]["mujeres"]["productos"]:
-        zapatillas = {"id": i["id"],"nombre": i["nombre"], "marca": i["marca"], "precio": i["precio"]}
-        mujeres.append(zapatillas)
-
-    for i in jsonok["tienda"]["categorias"]["pantalones"]["hombres"]["productos"]:
-        zapatillas = {"id": i["id"],"nombre": i["nombre"], "marca": i["marca"], "precio": i["precio"]}
-        hombres.append(zapatillas)
-
-    for i in jsonok["tienda"]["categorias"]["pantalones"]["mujeres"]["productos"]:
-        zapatillas = {"id": i["id"],"nombre": i["nombre"], "marca": i["marca"], "precio": i["precio"]}
-        mujeres.append(zapatillas)
-
-    sumalista = hombres+mujeres
+    sumalista = hombres + mujeres
 
     for i in sumalista:
         if i["nombre"].startswith(buscador):
-            final = {"id": i["id"],"nombre": i["nombre"], "marca": i["marca"], "precio": i["precio"]}
-            sumalista2.append(final)
+            sumalista2.append(i)
     
 
     return render_template("tabla.html",resultado=sumalista2,buscador=buscador)
@@ -71,80 +53,21 @@ def detalles(identificador):
     listaTallas = []
     listaColores = []
 
-    for i in jsonok["tienda"]["categorias"]["zapatillas"]["hombres"]["productos"]:
-        if int(identificador) == i["id"] :
-            for e in i["detalles"]["tallas"]:
-                tallas = {"tallas": e}
-                listaTallas.append(tallas)
-            for e in i["detalles"]["colores"]:
-                colores = {"colores": e}
-                listaColores.append(colores)
+    categorias = ["zapatillas", "camisetas", "sudaderas", "pantalones"]
+    generos = ["hombres", "mujeres"]
 
-    for i in jsonok["tienda"]["categorias"]["zapatillas"]["mujeres"]["productos"]:
-        if int(identificador) == i["id"] :
-            for e in i["detalles"]["tallas"]:
-                tallas = {"tallas": e}
-                listaTallas.append(tallas)
-            for e in i["detalles"]["colores"]:
-                colores = {"colores": e}
-                listaColores.append(colores)
+    for categoria in categorias:
+        for genero in generos:
+            productos = jsonok["tienda"]["categorias"][categoria][genero]["productos"]
+            for producto in productos:
+                if int(identificador) == producto["id"]:
+                    detalles_producto = producto["detalles"]
+                    for talla in detalles_producto["tallas"]:
+                        listaTallas.append({"tallas": talla})
+                    for color in detalles_producto["colores"]:
+                        listaColores.append({"colores": color})
 
-    for i in jsonok["tienda"]["categorias"]["camisetas"]["hombres"]["productos"]:
-        if int(identificador) == i["id"] :
-            for e in i["detalles"]["tallas"]:
-                tallas = {"tallas": e}
-                listaTallas.append(tallas)
-            for e in i["detalles"]["colores"]:
-                colores = {"colores": e}
-                listaColores.append(colores)
-
-    for i in jsonok["tienda"]["categorias"]["camisetas"]["mujeres"]["productos"]:
-        if int(identificador) == i["id"] :
-            for e in i["detalles"]["tallas"]:
-                tallas = {"tallas": e}
-                listaTallas.append(tallas)
-            for e in i["detalles"]["colores"]:
-                colores = {"colores": e}
-                listaColores.append(colores)
-
-    for i in jsonok["tienda"]["categorias"]["sudaderas"]["hombres"]["productos"]:
-        if int(identificador) == i["id"] :
-            for e in i["detalles"]["tallas"]:
-                tallas = {"tallas": e}
-                listaTallas.append(tallas)
-            for e in i["detalles"]["colores"]:
-                colores = {"colores": e}
-                listaColores.append(colores)   
-
-    for i in jsonok["tienda"]["categorias"]["sudaderas"]["mujeres"]["productos"]:
-        if int(identificador) == i["id"] :
-            for e in i["detalles"]["tallas"]:
-                tallas = {"tallas": e}
-                listaTallas.append(tallas)
-            for e in i["detalles"]["colores"]:
-                colores = {"colores": e}
-                listaColores.append(colores)
-
-    for i in jsonok["tienda"]["categorias"]["pantalones"]["hombres"]["productos"]:
-        if int(identificador) == i["id"] :
-            for e in i["detalles"]["tallas"]:
-                tallas = {"tallas": e}
-                listaTallas.append(tallas)
-            for e in i["detalles"]["colores"]:
-                colores = {"colores": e}
-                listaColores.append(colores)
-
-    for i in jsonok["tienda"]["categorias"]["pantalones"]["mujeres"]["productos"]:
-        if int(identificador) == i["id"] :
-            for e in i["detalles"]["tallas"]:
-                tallas = {"tallas": e}
-                listaTallas.append(tallas)
-            for e in i["detalles"]["colores"]:
-                colores = {"colores": e}
-                listaColores.append(colores)
-
-
-    return render_template("details.html",listaTallas=listaTallas,listaColores=listaColores)
+    return render_template("details.html", listaTallas=listaTallas, listaColores=listaColores)
 
 
 app.run("0.0.0.0",5000,debug=True)
