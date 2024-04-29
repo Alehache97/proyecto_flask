@@ -12,15 +12,20 @@ body {
 
 /* Estilos para el encabezado */
 #header {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
+    background-color: #333; /* Color de fondo oscuro */
+    color: #fff; /* Color del texto blanco */
+    padding: 20px 0; /* Espaciado interno */
+    text-align: center; /* Alineación del texto al centro */
 }
 
+/* Estilos para el título */
 #header h1 {
-    margin: 0;
-    font-size: 2.5em;
+    margin: 0; /* Eliminar márgenes */
+    font-size: 3em; /* Tamaño de fuente grande */
+    font-family: 'Impact', sans-serif; /* Fuente de impacto */
+    text-transform: uppercase; /* Convertir texto en mayúsculas */
+    letter-spacing: 3px; /* Espaciado entre letras */
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8); /* Sombra de texto */
 }
 
 /* Estilos para la barra de navegación */
@@ -73,6 +78,7 @@ body.left-sidebar.is-preload {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    margin-bottom: 100px; /* Añade un margen inferior para dejar espacio para el footer */
 }
 
 .main-content h2 {
@@ -99,6 +105,7 @@ footer {
     color: #fff;
     text-align: center;
     padding: 20px 0;
+    z-index: 999; /* Asegura que el footer esté por encima del contenido */
 }
 
 table {
@@ -126,4 +133,3 @@ table {
   tbody tr:hover {
     background-color: #ddd;
   }
-  
